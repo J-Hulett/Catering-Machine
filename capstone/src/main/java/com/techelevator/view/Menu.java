@@ -16,30 +16,51 @@ public class Menu {
     public void run() {
         boolean isRunning = true;
 		while (isRunning) {
-            //  to do -- build out main menu
+
             UserOutput.welcomeBanner();
+
             try {
                 readFromCateringFile();// Reads file then builds a list
             } catch (IOException e) {
                 System.out.println("Test Not successful could not make list");
             }
-//        UserOutput.displayListOfInventoryOfItems(vendingMachine.getInventoryOfItems());
 
 
             String selection = UserInput.displayHomeMenu();
             if (selection.equals("list")) {
+                UserOutput.emptyLine();
                 UserOutput.displayListOfInventoryOfItems(vendingMachine.getInventoryOfItems());
-                isRunning = false;
             } else if (selection.equals("purchase")) {
-                System.out.println("Purchase");
-                isRunning = false;
+                runPurchase();
             } else if (selection.equals("exit")) {
                 isRunning = false;
             } else if (selection.equals("invalid")) {
                 System.out.println("Invalid selection please select (D, P or E). ");
-                System.out.println();
+                UserOutput.emptyLine();
             }
         }
+    }
+
+    public void runPurchase(){
+        boolean isPurchasing = true;
+        while(isPurchasing){
+           String selection = UserInput.displayPurchaseMenu(vendingMachine);
+            if (selection.equals("feed")){
+                runFeed();
+            }else if (selection.equals("select")){
+                System.out.println("SELECT AN ITEM!!!");
+            }else if (selection.equals("finish")){
+                UserOutput.emptyLine();
+                isPurchasing = false;
+            } else if (selection.equals("invalid")){
+                UserOutput.emptyLine();
+                System.out.println("Invalid selection please select (M, S or F). ");
+            }
+        }
+    }
+
+    public void runFeed(){
+            UserInput.displayFeedMoneyMenu(vendingMachine);
     }
 
 

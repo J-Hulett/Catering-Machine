@@ -41,4 +41,8 @@ public class VendingMachine {
     public void setMaximumCashStorage(double maximumCashStorage) {
         this.maximumCashStorage = maximumCashStorage;
     }
+
+    public void addMoneyToVendingMachine(double moneyFed){
+        totalMoneyUserFed += moneyFed;
+    }
 }
