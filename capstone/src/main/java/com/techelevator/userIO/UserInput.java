@@ -100,7 +100,7 @@ public class UserInput {
         }
         if(startMoney == vendingMachine.getTotalMoneyUserFed()) {
             UserOutput.emptyLine();
-            System.out.println("Invalid Entry"); 
+            System.out.println("Invalid Entry");
         }
     }
 
