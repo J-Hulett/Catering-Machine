@@ -36,4 +36,18 @@ public class UserOutput {
     }
 
 
+    public static void displayItemMessage (String type){
+        if(type.equals("Munchy")){
+            System.out.println("Munchy, Munchy, so Good!");
+        }
+        else if (type.equals("Sandwich")){
+            System.out.println("Sandwich So Delicious, Yum!");
+        }
+        else if (type.equals("Drink")){
+            System.out.println("Drinky, Drinky, Slurp Slurp!");
+        }
+        else if (type.equals("Dessert")){
+            System.out.println("Sugar, Sugar, so Sweet!");
+        }
+    }
 }

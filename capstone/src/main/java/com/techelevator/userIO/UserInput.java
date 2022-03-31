@@ -1,8 +1,10 @@
 package com.techelevator.userIO;
 
+import com.techelevator.models.Item;
 import com.techelevator.models.VendingMachine;
 import com.techelevator.view.Menu;
 
+import javax.sound.midi.Soundbank;
 import java.util.Locale;
 import java.util.Scanner;
 
@@ -60,6 +62,50 @@ public class UserInput {
         }
 
     }
+
+    public static void displaySelectMenu (VendingMachine vendingMachine){
+        UserOutput.emptyLine();
+        UserOutput.printStarBanner();
+        System.out.println("*********************************Select an Item********************************");
+        UserOutput.printStarBanner();
+        UserOutput.emptyLine();
+        System.out.println("Input the slot of the item you wish to purchase");
+        System.out.println("For example : 'A1' 'B2' ");
+        UserOutput.emptyLine();
+        UserOutput.displayListOfInventoryOfItems(vendingMachine.getInventoryOfItems());
+
+        String slotSelection = getUserSelection();
+
+        double startMoney = vendingMachine.getTotalMoneyUserFed();// Check for invalid Entries
+        for (Item item: vendingMachine.getInventoryOfItems()) {
+
+                if (item.getSlot().equals(slotSelection) && vendingMachine.getTotalMoneyUserFed() < item.getPrice()) {
+                    UserOutput.emptyLine();
+                    System.out.println("Not enough money, please add more money");
+                }
+                if (item.getSlot().equals(slotSelection) && item.getQuantity() == 0) {
+                    UserOutput.emptyLine();
+                    System.out.println("NO LONGER AVAILABLE");
+                }
+                // create a method for subtracting from total price
+                if (item.getSlot().equals(slotSelection) && item.getQuantity() > 0
+                        && vendingMachine.getTotalMoneyUserFed() >= item.getPrice()) {
+                    item.setQuantity(item.getQuantity() - 1);
+                    UserOutput.emptyLine();
+                    vendingMachine.setTotalMoneyUserFed(vendingMachine.getTotalMoneyUserFed() - item.getPrice());
+
+                    System.out.println(item.getName() + " Price: $" + item.getPrice());
+                    UserOutput.displayItemMessage(item.getType());
+                }
+        }
+        if(startMoney == vendingMachine.getTotalMoneyUserFed()) {
+            UserOutput.emptyLine();
+            System.out.println("Invalid Entry"); 
+        }
+    }
+
+
+
 
     public static void displayFeedMoneyMenu(VendingMachine vendingMachine){
         UserOutput.emptyLine();

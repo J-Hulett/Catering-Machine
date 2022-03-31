@@ -48,7 +48,7 @@ public class Menu {
             if (selection.equals("feed")){
                 runFeed();
             }else if (selection.equals("select")){
-                System.out.println("SELECT AN ITEM!!!");
+                runSelect();
             }else if (selection.equals("finish")){
                 UserOutput.emptyLine();
                 isPurchasing = false;
@@ -63,10 +63,13 @@ public class Menu {
             UserInput.displayFeedMoneyMenu(vendingMachine);
     }
 
+    public void runSelect(){
+        UserInput.displaySelectMenu(vendingMachine);
+    }
 
 
 
-        public List<Item> readFromCateringFile() throws IOException {
+        public void readFromCateringFile() throws IOException {
         File readFile = new File("catering.csv");
         try {
             Scanner fileReader = new Scanner(readFile);
@@ -80,7 +83,6 @@ public class Menu {
         } catch (FileNotFoundException e) {
             System.out.println("Internal Error - ItemList Not Found");
         }
-        return vendingMachine.getInventoryOfItems();
     }
 
 }
