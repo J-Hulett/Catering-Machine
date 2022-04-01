@@ -17,75 +17,94 @@ public class Menu {
     public void run() {
 
         try {
-
             readFromCateringFile();// Reads file then builds a list
         } catch (IOException e) {
             System.out.println("Test Not successful could not make list");
         }
 
         boolean isRunning = true;
-
         while (isRunning) {
-
             UserOutput.welcomeBanner();
-            String selection = UserInput.displayHomeMenu();
+            String selection = UserInput.displayHomeMenu(vendingMachine);
             if (selection.equals("list")) {
                 UserOutput.emptyLine();
                 UserOutput.displayListOfInventoryOfItems(vendingMachine.getInventoryOfItems());
             } else if (selection.equals("purchase")) {
                 runPurchase();
             } else if (selection.equals("exit")) {
+                UserOutput.goodBye();
                 isRunning = false;
+            } else if (selection.equals("secret")) {
+                UserOutput.emptyLine();
+                System.out.println("Sales report has been printed");
+                UserOutput.emptyLine();
+                salesReportGenerator(vendingMachine);
             } else if (selection.equals("invalid")) {
-                System.out.println("Invalid selection please select (D, P or E). ");
+                UserOutput.emptyLine();
+                System.out.println("Invalid selection please select (D, P or E).");
                 UserOutput.emptyLine();
             }
         }
     }
 
-    public void runPurchase(){
+    public void runPurchase() {
         boolean isPurchasing = true;
-        while(isPurchasing){
-           String selection = UserInput.displayPurchaseMenu(vendingMachine);
-            if (selection.equals("feed")){
+        while (isPurchasing) {
+            String selection = UserInput.displayPurchaseMenu(vendingMachine);
+            if (selection.equals("feed")) {
                 runFeed();
-            }else if (selection.equals("select")){
+            } else if (selection.equals("select")) {
                 runSelect();
-            }else if (selection.equals("finish")){
+            } else if (selection.equals("finish")) {
                 UserOutput.getChange(vendingMachine.getTotalMoneyUserFed());
                 vendingMachine.setTotalMoneyUserFed(0);
                 isPurchasing = false;
-            } else if (selection.equals("invalid")){
+            } else if (selection.equals("invalid")) {
                 UserOutput.emptyLine();
                 System.out.println("Invalid selection please select (M, S or F). ");
             }
         }
     }
 
-    public void runFeed(){
-            UserInput.displayFeedMoneyMenu(vendingMachine);
+    public void runFeed() {
+        UserInput.displayFeedMoneyMenu(vendingMachine);
     }
 
-    public void runSelect(){
+    public void runSelect() {
         UserInput.displaySelectMenu(vendingMachine);
     }
 
-
-
-        public void readFromCateringFile() throws IOException {
+    public void readFromCateringFile() throws IOException {
         File readFile = new File("catering.csv");
         try {
             Scanner fileReader = new Scanner(readFile);
-            while (fileReader.hasNextLine()){
+            while (fileReader.hasNextLine()) {
                 String currentLine = fileReader.nextLine();
-                String [] itemArray = currentLine.split(","); //Split by comma to make the item
+                String[] itemArray = currentLine.split(","); //Split by comma to make the item
                 Item item = new Item(itemArray[0], itemArray[1], itemArray[2], Double.parseDouble(itemArray[3]));
-                // Made Items parameters
-                vendingMachine.addItemToList(item);
+                vendingMachine.addItemToList(item); //Add each item to the vending machine.
             }
         } catch (FileNotFoundException e) {
             System.out.println("Internal Error - ItemList Not Found");
         }
     }
 
+    public void salesReportGenerator(VendingMachine vendingMachine) {
+        Logger reportLogger = new Logger("Sales Report " + UserOutput.getTimeForSalesReport() + ".csv");
+
+        double totalSales = 0.00;
+        for (Item item : vendingMachine.getInventoryOfItems()) {
+            int fullStock = 7;
+            int numberSold = fullStock - item.getQuantity();
+            reportLogger.write(item.getName() + ", " + numberSold);
+            totalSales += numberSold * item.getPrice();
+        }
+        reportLogger.write("\n");
+        reportLogger.write("TOTAL SALES: $" + UserOutput.money.format(totalSales));
+        try {
+            reportLogger.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 }
