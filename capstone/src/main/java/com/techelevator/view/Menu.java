@@ -50,7 +50,8 @@ public class Menu {
             }else if (selection.equals("select")){
                 runSelect();
             }else if (selection.equals("finish")){
-                UserOutput.emptyLine();
+                UserOutput.getChange(vendingMachine.getTotalMoneyUserFed());
+                vendingMachine.setTotalMoneyUserFed(0);
                 isPurchasing = false;
             } else if (selection.equals("invalid")){
                 UserOutput.emptyLine();
