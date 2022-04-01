@@ -64,32 +64,28 @@ public class UserOutput {
         int countQuarter = 0;
         int countDime = 0;
         int countNickel = 0;
-        BigDecimal bd = new BigDecimal(remainingMoney).setScale(2, RoundingMode.HALF_UP);
-        double calculatedCount = bd.doubleValue();
+        double calculatedCount = roundDecimalTo2Places(remainingMoney);
+
 
         while(calculatedCount > 0){
             if(calculatedCount >= one){
               calculatedCount -= one;
-              BigDecimal bdOne = new BigDecimal(calculatedCount).setScale(2,RoundingMode.HALF_UP);
-              calculatedCount = bdOne.doubleValue();
+              calculatedCount = roundDecimalTo2Places(calculatedCount);
                 countOne++;
             }
             else if(calculatedCount >= quarter){
                 calculatedCount -= quarter;
-                BigDecimal bdQuarter = new BigDecimal(calculatedCount).setScale(2,RoundingMode.HALF_UP);
-                calculatedCount = bdQuarter.doubleValue();
+                calculatedCount = roundDecimalTo2Places(calculatedCount);
                 countQuarter++;
             }
             else if(calculatedCount >= dime){
                 calculatedCount -= dime;
-                BigDecimal bdDime = new BigDecimal(calculatedCount).setScale(2,RoundingMode.HALF_UP);
-                calculatedCount = bdDime.doubleValue();
+                calculatedCount = roundDecimalTo2Places(calculatedCount);
                 countDime++;
             }
             else if(calculatedCount >= nickel){
                 calculatedCount -= nickel;
-                BigDecimal bdNickel = new BigDecimal(calculatedCount).setScale(2,RoundingMode.HALF_UP);
-                calculatedCount = bdNickel.doubleValue();
+                calculatedCount = roundDecimalTo2Places(calculatedCount);
                 countNickel++;
             }
 
@@ -99,53 +95,28 @@ public class UserOutput {
     }
 
     public static void printChange(int countOne, int countQuarter, int countDime, int countNickel){
-        String changeString = "";
+        String changeString = "Your change:" + "\n";
         if (countOne > 0){
-            changeString += "$1: " + countOne + " ";
+            changeString += "Dollars($1): " + countOne + "\n";
         }
         if (countQuarter > 0){
-            changeString += "Quarter(s): " + countQuarter + " ";
+            changeString += "Quarter(s): " + countQuarter + "\n";
         }
         if (countDime > 0){
-            changeString += "Dime(s): " + countDime + " ";
+            changeString += "Dime(s): " + countDime + "\n";
         }
         if (countNickel > 0){
-            changeString += "Nickel(s): " + countNickel + " ";
+            changeString += "Nickel(s): " + countNickel + "\n";
         }
         System.out.println(changeString);
     }
+
+
+    public static double roundDecimalTo2Places(double count){
+        BigDecimal bdNickel = new BigDecimal(count).setScale(2,RoundingMode.HALF_UP);
+        count = bdNickel.doubleValue();
+        return count;
+    }
+
 }
 
-
-//        while(countRemaining.compareTo(zero) == 1){
-//                if(countRemaining.compareTo(one) == 1 || countRemaining.compareTo(one) == 0){
-//                countRemaining.subtract(one);
-//                countOne++;
-//                }
-//                else if(countRemaining.compareTo(quarter) == 1 || countRemaining.compareTo(quarter) == 0){
-//                countRemaining.subtract(quarter);
-//                countQuarter++;
-//                }
-//                else if(countRemaining.compareTo(dime) == 1 || countRemaining.compareTo(dime) == 0){
-//                countRemaining.subtract(dime);
-//                countDime++;
-//                }
-//                else if(countRemaining.compareTo(nickel) == 1 || countRemaining.compareTo(nickel) == 0){
-//                countRemaining.subtract(nickel);
-//                countNickel++;
-//                }
-//
-//    BigDecimal one =  new BigDecimal(1.00);
-//    BigDecimal quarter = new BigDecimal(.25);
-//    BigDecimal dime = new BigDecimal(0.10);
-//    BigDecimal nickel = new BigDecimal(0.05);
-//    BigDecimal zero = new BigDecimal(0);
-
-//    BigDecimal bd3 = new BigDecimal("1.00").setScale(2, RoundingMode.HALF_UP);
-//    double one = bd3.doubleValue();
-//    BigDecimal bd4 = new BigDecimal(".25").setScale(2, RoundingMode.HALF_UP);
-//    double quarter= bd4.doubleValue();
-//    BigDecimal bd1 = new BigDecimal(".10").setScale(2, RoundingMode.HALF_UP);
-//    double dime = bd1.doubleValue();
-//    BigDecimal bd2 = new BigDecimal(".05").setScale(2, RoundingMode.HALF_UP);
-//    double nickel = bd2.doubleValue();

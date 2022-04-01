@@ -1,8 +1,15 @@
 package com.techelevator.logger;
 
+import com.techelevator.models.Item;
+import com.techelevator.models.VendingMachine;
+
 import java.io.*;
+import java.text.DecimalFormat;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 public class Logger {
+    private static final DecimalFormat money = new DecimalFormat("0.00");
 
     private File logFile;
     private PrintWriter writer;
@@ -32,6 +39,31 @@ public class Logger {
 
     public void close() throws IOException{
         this.writer.close(); //Close when you're done writing
+    }
+
+
+    public void auditMoneyFedLogger(Logger logger, VendingMachine vendingMachine, String moneyAdded){
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MM/dd/yyyy HH:mm:ss a");
+        LocalDateTime rightNow = LocalDateTime.now();
+        String printTime = rightNow.format(formatter);
+        logger.write(printTime + " MONEY FED:        " +moneyAdded + " $" + money.format(vendingMachine.getTotalMoneyUserFed()));
+    }
+
+    public void auditChangeLogger(Logger logger, VendingMachine vendingMachine){
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MM/dd/yyyy HH:mm:ss a");
+        LocalDateTime rightNow = LocalDateTime.now();
+        String printTime = rightNow.format(formatter);
+        logger.write(printTime + " CHANGE GIVEN:     $" + money.format(vendingMachine.getTotalMoneyUserFed()) + " $0.00");
+    }
+
+
+    public void auditPurchaseLogger(Logger logger, VendingMachine vendingMachine, Item item){
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MM/dd/yyyy HH:mm:ss a");
+        LocalDateTime rightNow = LocalDateTime.now();
+        String printTime = rightNow.format(formatter);
+        logger.write(printTime + " " + item.getName() + "     " + item.getSlot() + " $"
+                + money.format(vendingMachine.getTotalMoneyUserFed()) + " $"
+                + money.format(vendingMachine.getTotalMoneyUserFed() - item.getPrice()));
     }
 
 }

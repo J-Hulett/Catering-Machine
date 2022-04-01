@@ -1,15 +1,20 @@
 package com.techelevator.userIO;
 
+import com.techelevator.logger.Logger;
 import com.techelevator.models.Item;
 import com.techelevator.models.VendingMachine;
 import com.techelevator.view.Menu;
 
 import javax.sound.midi.Soundbank;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Locale;
 import java.util.Scanner;
 
 public class UserInput {
 
+
+    private static Logger auditLogger = new Logger("Audit.txt");
     private static Scanner scanner = new Scanner((System.in));
 
     public static String displayHomeMenu() {
@@ -56,6 +61,7 @@ public class UserInput {
             case "S":
                 return "select";
             case "F":
+                auditLogger.auditChangeLogger(auditLogger,vendingMachine);
                 return "finish";
             default:
                 return "invalid";
@@ -75,33 +81,39 @@ public class UserInput {
         UserOutput.displayListOfInventoryOfItems(vendingMachine.getInventoryOfItems());
 
         String slotSelection = getUserSelection();
+        boolean isIn = false; // Refactor this whole loop
 
-        double startMoney = vendingMachine.getTotalMoneyUserFed();// Check for invalid Entries
-        for (Item item: vendingMachine.getInventoryOfItems()) {
+//        double startMoney = vendingMachine.getTotalMoneyUserFed();// Check for invalid Entries
 
-                if (item.getSlot().equals(slotSelection) && vendingMachine.getTotalMoneyUserFed() < item.getPrice()) {
+            for (Item item : vendingMachine.getInventoryOfItems()) {
+                if(item.getSlot().equals(slotSelection)){
+                    isIn = true;
+                }
+                if (item.getSlot().equals(slotSelection) && vendingMachine.getTotalMoneyUserFed() < item.getPrice() && isIn) {
                     UserOutput.emptyLine();
                     System.out.println("Not enough money, please add more money");
                 }
-                if (item.getSlot().equals(slotSelection) && item.getQuantity() == 0) {
+                if (item.getSlot().equals(slotSelection) && item.getQuantity() == 0 && isIn) {
                     UserOutput.emptyLine();
                     System.out.println("NO LONGER AVAILABLE");
                 }
                 // create a method for subtracting from total price
                 if (item.getSlot().equals(slotSelection) && item.getQuantity() > 0
-                        && vendingMachine.getTotalMoneyUserFed() >= item.getPrice()) {
+                        && vendingMachine.getTotalMoneyUserFed() >= item.getPrice() && isIn) {
                     item.setQuantity(item.getQuantity() - 1);
                     UserOutput.emptyLine();
+                    auditLogger.auditPurchaseLogger(auditLogger,vendingMachine,item);
                     vendingMachine.setTotalMoneyUserFed(vendingMachine.getTotalMoneyUserFed() - item.getPrice());
-
                     System.out.println(item.getName() + " Price: $" + item.getPrice());
                     UserOutput.displayItemMessage(item.getType());
                 }
-        }
-        if(startMoney == vendingMachine.getTotalMoneyUserFed()) {
+            }
+
+                 if (!isIn){
             UserOutput.emptyLine();
             System.out.println("Invalid Entry");
-        }
+                 }
+
     }
 
 
@@ -118,15 +130,24 @@ public class UserInput {
         switch (moneyFed){
             case "$1":
                 vendingMachine.addMoneyToVendingMachine(1.00);
+                String dollar = "$1.00";
+               auditLogger.auditMoneyFedLogger(auditLogger, vendingMachine, dollar);
+
                 break;
             case "$5":
                 vendingMachine.addMoneyToVendingMachine(5.00);
+                String fiveDollar = "$5.00";
+                auditLogger.auditMoneyFedLogger(auditLogger, vendingMachine, fiveDollar);
                 break;
             case "$10":
                 vendingMachine.addMoneyToVendingMachine(10.00);
+                String tenDollar = "$10.00";
+                auditLogger.auditMoneyFedLogger(auditLogger, vendingMachine, tenDollar);
                 break;
             case "$20":
                 vendingMachine.addMoneyToVendingMachine(20.00);
+                String twentyDollar = "$20.00";
+                auditLogger.auditMoneyFedLogger(auditLogger, vendingMachine, twentyDollar);
                 break;
             default:
                 UserOutput.emptyLine();

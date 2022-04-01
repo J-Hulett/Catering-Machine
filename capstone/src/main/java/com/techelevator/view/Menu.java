@@ -1,5 +1,6 @@
 package com.techelevator.view;
 
+import com.techelevator.logger.Logger;
 import com.techelevator.models.Item;
 import com.techelevator.models.VendingMachine;
 import com.techelevator.userIO.UserInput;
@@ -14,18 +15,19 @@ public class Menu {
 
 
     public void run() {
+
+        try {
+
+            readFromCateringFile();// Reads file then builds a list
+        } catch (IOException e) {
+            System.out.println("Test Not successful could not make list");
+        }
+
         boolean isRunning = true;
-		while (isRunning) {
+
+        while (isRunning) {
 
             UserOutput.welcomeBanner();
-
-            try {
-                readFromCateringFile();// Reads file then builds a list
-            } catch (IOException e) {
-                System.out.println("Test Not successful could not make list");
-            }
-
-
             String selection = UserInput.displayHomeMenu();
             if (selection.equals("list")) {
                 UserOutput.emptyLine();
