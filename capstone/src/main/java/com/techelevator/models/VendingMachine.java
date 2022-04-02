@@ -1,5 +1,7 @@
 package com.techelevator.models;
 
+import com.techelevator.userIO.UserOutput;
+
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.ArrayList;
@@ -61,10 +63,10 @@ public class VendingMachine {
         return countTheChange;
     }
 
-    public static double roundDecimalTo2Places(double count) {
-        BigDecimal bdNickel = new BigDecimal(count).setScale(2, RoundingMode.HALF_UP);
-        count = bdNickel.doubleValue();
-        return count;
+    public static double roundDecimalTo2Places(double numberToConvert) {
+        BigDecimal convertMe = new BigDecimal(numberToConvert).setScale(2, RoundingMode.HALF_UP);
+        numberToConvert = convertMe.doubleValue();
+        return numberToConvert;
     }
 
 }

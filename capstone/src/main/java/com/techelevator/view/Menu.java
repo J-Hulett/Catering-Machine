@@ -27,7 +27,6 @@ public class Menu {
             UserOutput.welcomeBanner();
             String selection = UserInput.displayHomeMenu(vendingMachine);
             if (selection.equals("list")) {
-                UserOutput.emptyLine();
                 UserOutput.displayListOfInventoryOfItems(vendingMachine.getInventoryOfItems());
             } else if (selection.equals("purchase")) {
                 runPurchase();
@@ -35,14 +34,10 @@ public class Menu {
                 UserOutput.goodBye();
                 isRunning = false;
             } else if (selection.equals("secret")) {
-                UserOutput.emptyLine();
-                System.out.println("Sales report has been printed");
-                UserOutput.emptyLine();
+                UserOutput.printSalesReportConfirmation();
                 salesReportGenerator();
             } else if (selection.equals("invalid")) {
-                UserOutput.emptyLine();
-                System.out.println("Invalid selection please select (D, P or E).");
-                UserOutput.emptyLine();
+                UserOutput.printHomeScreenInvalidSelection();
             }
         }
     }
@@ -59,8 +54,7 @@ public class Menu {
                 runFinish();
                 isPurchasing = false;
             } else if (selection.equals("invalid")) {
-                UserOutput.emptyLine();
-                System.out.println("Invalid selection please select (M, S or F).");
+                UserOutput.printPurchaseMenuInvalidSelection();
             }
         }
     }

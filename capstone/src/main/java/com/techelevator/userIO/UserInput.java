@@ -18,11 +18,7 @@ public class UserInput {
     private static Scanner scanner = new Scanner((System.in));
 
     public static String displayHomeMenu(VendingMachine vendingMachine) {
-        System.out.println("(D) ------ Display Catering Items ------");
-        System.out.println("(P) ------ Purchase Items --------------");
-        System.out.println("(E) ------ Exit ------------------------");
-        UserOutput.emptyLine();
-
+        UserOutput.printHomeScreenOptions();
         String formattedSelection = getUserSelection();
 
         switch (formattedSelection) {
@@ -39,19 +35,8 @@ public class UserInput {
         }
     }
 
-
     public static String displayPurchaseMenu(VendingMachine vendingMachine) {
-        UserOutput.emptyLine();
-        UserOutput.printStarBanner();
-        System.out.println("*********************************Purchase Menu*********************************");
-        UserOutput.printStarBanner();
-        UserOutput.emptyLine();
-        System.out.println("(M) ------ Feed Money ------------------");
-        System.out.println("(S) ------ Select Item -----------------");
-        System.out.println("(F) ------ Finish Transaction ----------");
-        UserOutput.emptyLine();
-        UserOutput.displayCurrentMoneyProvided(vendingMachine);
-
+        UserOutput.printPurchaseMenuBannerAndOptions(vendingMachine);
         String formattedSelection = getUserSelection();
 
         switch (formattedSelection) {
@@ -65,11 +50,9 @@ public class UserInput {
             default:
                 return "invalid";
         }
-
     }
 
     public static void displaySelectMenu(VendingMachine vendingMachine) {
-
         UserOutput.printSelectMenuInstructions();
         UserOutput.displayListOfInventoryOfItems(vendingMachine.getInventoryOfItems());
 
@@ -95,7 +78,7 @@ public class UserInput {
                 UserOutput.emptyLine();
                 auditLogger.auditPurchaseLogger(auditLogger, vendingMachine, item);
                 vendingMachine.setTotalMoneyUserFed(vendingMachine.getTotalMoneyUserFed() - item.getPrice());
-                System.out.println(item.getName() + " Price: $" + item.getPrice());
+                System.out.println(item.itemNamePriceString());
                 System.out.println(UserOutput.buildItemMessage(item.getType()));
             }
         }
@@ -135,7 +118,7 @@ public class UserInput {
                 System.out.println("INVALID ENTRY - PLEASE ENTER A VALID AMOUNT!!!");
                 UserOutput.emptyLine();
         }
-        UserOutput.displayCurrentMoneyProvided(vendingMachine);
+        System.out.println(UserOutput.currentMoneyProvidedToString(vendingMachine));
     }
 
     private static String getUserSelection() {

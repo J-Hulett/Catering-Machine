@@ -25,6 +25,7 @@ public class Item {
     public String getName() {
         return name;
     }
+
     public double getPrice() {
         return price;
     }
@@ -35,5 +36,9 @@ public class Item {
 
     public String getType() {
         return type;
+    }
+
+    public String itemNamePriceString(){
+        return getName() + " Price: $" + getPrice();
     }
 }

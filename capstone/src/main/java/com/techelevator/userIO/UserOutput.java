@@ -30,6 +30,26 @@ public class UserOutput {
         emptyLine();
     }
 
+    public static void printPurchaseMenuBannerAndOptions(VendingMachine vendingMachine){
+        emptyLine();
+        printStarBanner();
+        System.out.println("*********************************Purchase Menu*********************************");
+        printStarBanner();
+        emptyLine();
+        System.out.println("(M) ------ Feed Money ------------------");
+        System.out.println("(S) ------ Select Item -----------------");
+        System.out.println("(F) ------ Finish Transaction ----------");
+        emptyLine();
+        currentMoneyProvidedToString(vendingMachine);
+    }
+
+    public static void printHomeScreenOptions(){
+        System.out.println("(D) ------ Display Catering Items ------");
+        System.out.println("(P) ------ Purchase Items --------------");
+        System.out.println("(E) ------ Exit ------------------------");
+        emptyLine();
+    }
+
     public static void printFeedMoneyMenuOptionList(){
         UserOutput.emptyLine();
         System.out.println("Select your denomination to deposit -- $1, $5, $10, $20");
@@ -49,6 +69,23 @@ public class UserOutput {
         emptyLine();
     }
 
+    public static void printSalesReportConfirmation(){
+        emptyLine();
+        System.out.println("Sales report has been printed");
+        emptyLine();
+    }
+
+    public static void printHomeScreenInvalidSelection(){
+        emptyLine();
+        System.out.println("Invalid selection please select (D, P or E).");
+        emptyLine();
+    }
+
+    public static void printPurchaseMenuInvalidSelection(){
+        emptyLine();
+        System.out.println("Invalid selection please select (M, S or F).");
+    }
+
     public static void goodBye(){
         emptyLine();
         printStarBanner();
@@ -58,16 +95,16 @@ public class UserOutput {
     }
 
     public static void displayListOfInventoryOfItems(List<Item> items) {
+        emptyLine();
         for (Item item : items) {
             System.out.println(item.getSlot() + " || " + item.getName() + " || " + item.getPrice());
         }
         emptyLine();
     }
 
-    public static void displayCurrentMoneyProvided(VendingMachine vendingMachine) {
-        System.out.println("Current Money Provided: $" + money.format(vendingMachine.getTotalMoneyUserFed()));
+    public static String currentMoneyProvidedToString(VendingMachine vendingMachine) {
+        return "Current Money Provided: $" + money.format(vendingMachine.getTotalMoneyUserFed());
     }
-
 
     public static String buildItemMessage(String type) {
         if (type.equals("Munchy")) {
