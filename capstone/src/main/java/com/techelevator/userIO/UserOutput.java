@@ -15,8 +15,6 @@ public class UserOutput {
     public static final DecimalFormat money = new DecimalFormat("0.00");
 
 
-
-
     public static void printStarBanner() {
         System.out.println("*******************************************************************************");
     }
@@ -29,6 +27,25 @@ public class UserOutput {
         printStarBanner();
         System.out.println("******************************Catering Machine 9000****************************");
         printStarBanner();
+        emptyLine();
+    }
+
+    public static void printFeedMoneyMenuOptionList(){
+        UserOutput.emptyLine();
+        System.out.println("Select your denomination to deposit -- $1, $5, $10, $20");
+        System.out.println("--------- Make sure to include the ($) sign -----------");
+        System.out.println("--------- For Example ----- $1 ------------------------");
+        UserOutput.emptyLine();
+    }
+
+    public static void printSelectMenuInstructions(){
+        emptyLine();
+        printStarBanner();
+        System.out.println("*********************************Select an Item********************************");
+        printStarBanner();
+        emptyLine();
+        System.out.println("Input the slot of the item you wish to purchase");
+        System.out.println("For example : 'A1' 'B2' ");
         emptyLine();
     }
 
@@ -52,75 +69,36 @@ public class UserOutput {
     }
 
 
-    public static void displayItemMessage(String type) {
+    public static String buildItemMessage(String type) {
         if (type.equals("Munchy")) {
-            System.out.println("Munchy, Munchy, so Good!");
+            return "Munchy, Munchy, so Good!";
         } else if (type.equals("Sandwich")) {
-            System.out.println("Sandwich So Delicious, Yum!");
+            return "Sandwich So Delicious, Yum!";
         } else if (type.equals("Drink")) {
-            System.out.println("Drinky, Drinky, Slurp Slurp!");
+            return "Drinky, Drinky, Slurp Slurp!";
         } else if (type.equals("Dessert")) {
-            System.out.println("Sugar, Sugar, so Sweet!");
-        }
+            return "Sugar, Sugar, so Sweet!";
+        } else
+            return "Nobody knows what type of food this is";
     }
 
-    public static void getChange(double remainingMoney) {
-        double one = 1.00;
-        double quarter = .25;
-        double dime = .10;
-        double nickel = .05;
-        int countOne = 0;
-        int countQuarter = 0;
-        int countDime = 0;
-        int countNickel = 0;
-        double calculatedCount = roundDecimalTo2Places(remainingMoney);
-
-
-        while (calculatedCount > 0) {
-            if (calculatedCount >= one) {
-                calculatedCount -= one;
-                calculatedCount = roundDecimalTo2Places(calculatedCount);
-                countOne++;
-            } else if (calculatedCount >= quarter) {
-                calculatedCount -= quarter;
-                calculatedCount = roundDecimalTo2Places(calculatedCount);
-                countQuarter++;
-            } else if (calculatedCount >= dime) {
-                calculatedCount -= dime;
-                calculatedCount = roundDecimalTo2Places(calculatedCount);
-                countDime++;
-            } else if (calculatedCount >= nickel) {
-                calculatedCount -= nickel;
-                calculatedCount = roundDecimalTo2Places(calculatedCount);
-                countNickel++;
-            }
+    public static String buildChangeString(double[] countTheChange){
+        String changeString = "Your change: $" + money.format(countTheChange[4]) + "\n";
+        if (countTheChange[0] > 0) {
+            changeString += "Dollars($1): " + (int)countTheChange[0] + "\n";
         }
-        UserOutput.emptyLine();
-        printChange(countOne, countQuarter, countDime, countNickel, remainingMoney);
+        if (countTheChange[1] > 0) {
+            changeString += "Quarter(s): " + (int)countTheChange[1] + "\n";
+        }
+        if (countTheChange[2] > 0) {
+            changeString += "Dime(s): " + (int)countTheChange[2] + "\n";
+        }
+        if (countTheChange[3] > 0) {
+            changeString += "Nickel(s): " + (int)countTheChange[3] + "\n";
+        }
+        return changeString;
     }
 
-    public static void printChange(int countOne, int countQuarter, int countDime, int countNickel, double remainingMoney) {
-        String changeString = "Your change: $" + money.format(remainingMoney) + "\n";
-        if (countOne > 0) {
-            changeString += "Dollars($1): " + countOne + "\n";
-        }
-        if (countQuarter > 0) {
-            changeString += "Quarter(s): " + countQuarter + "\n";
-        }
-        if (countDime > 0) {
-            changeString += "Dime(s): " + countDime + "\n";
-        }
-        if (countNickel > 0) {
-            changeString += "Nickel(s): " + countNickel + "\n";
-        }
-        System.out.println(changeString);
-    }
-
-    public static double roundDecimalTo2Places(double count) {
-        BigDecimal bdNickel = new BigDecimal(count).setScale(2, RoundingMode.HALF_UP);
-        count = bdNickel.doubleValue();
-        return count;
-    }
 
     public static String getTime() {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MM/dd/yyyy HH:mm:ss a");

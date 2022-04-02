@@ -38,7 +38,7 @@ public class Menu {
                 UserOutput.emptyLine();
                 System.out.println("Sales report has been printed");
                 UserOutput.emptyLine();
-                salesReportGenerator(vendingMachine);
+                salesReportGenerator();
             } else if (selection.equals("invalid")) {
                 UserOutput.emptyLine();
                 System.out.println("Invalid selection please select (D, P or E).");
@@ -56,22 +56,28 @@ public class Menu {
             } else if (selection.equals("select")) {
                 runSelect();
             } else if (selection.equals("finish")) {
-                UserOutput.getChange(vendingMachine.getTotalMoneyUserFed());
-                vendingMachine.setTotalMoneyUserFed(0);
+                runFinish();
                 isPurchasing = false;
             } else if (selection.equals("invalid")) {
                 UserOutput.emptyLine();
-                System.out.println("Invalid selection please select (M, S or F). ");
+                System.out.println("Invalid selection please select (M, S or F).");
             }
         }
     }
 
     public void runFeed() {
-        UserInput.displayFeedMoneyMenu(vendingMachine);
+        UserOutput.printFeedMoneyMenuOptionList();
+        UserInput.getMoneyFedFromUser(vendingMachine);
     }
 
     public void runSelect() {
         UserInput.displaySelectMenu(vendingMachine);
+    }
+
+    public void runFinish(){
+        UserOutput.emptyLine();
+        System.out.println(UserOutput.buildChangeString(vendingMachine.getChange()));
+        vendingMachine.setTotalMoneyUserFed(0);
     }
 
     public void readFromCateringFile() throws IOException {
@@ -89,7 +95,7 @@ public class Menu {
         }
     }
 
-    public void salesReportGenerator(VendingMachine vendingMachine) {
+    public void salesReportGenerator() {
         Logger reportLogger = new Logger("Sales Report " + UserOutput.getTimeForSalesReport() + ".csv");
 
         double totalSales = 0.00;

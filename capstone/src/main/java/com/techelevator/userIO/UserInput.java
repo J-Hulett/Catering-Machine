@@ -69,14 +69,8 @@ public class UserInput {
     }
 
     public static void displaySelectMenu(VendingMachine vendingMachine) {
-        UserOutput.emptyLine();
-        UserOutput.printStarBanner();
-        System.out.println("*********************************Select an Item********************************");
-        UserOutput.printStarBanner();
-        UserOutput.emptyLine();
-        System.out.println("Input the slot of the item you wish to purchase");
-        System.out.println("For example : 'A1' 'B2' ");
-        UserOutput.emptyLine();
+
+        UserOutput.printSelectMenuInstructions();
         UserOutput.displayListOfInventoryOfItems(vendingMachine.getInventoryOfItems());
 
         String slotSelection = getUserSelection();
@@ -102,7 +96,7 @@ public class UserInput {
                 auditLogger.auditPurchaseLogger(auditLogger, vendingMachine, item);
                 vendingMachine.setTotalMoneyUserFed(vendingMachine.getTotalMoneyUserFed() - item.getPrice());
                 System.out.println(item.getName() + " Price: $" + item.getPrice());
-                UserOutput.displayItemMessage(item.getType());
+                System.out.println(UserOutput.buildItemMessage(item.getType()));
             }
         }
         if (!isIn) {
@@ -112,12 +106,7 @@ public class UserInput {
     }
 
 
-    public static void displayFeedMoneyMenu(VendingMachine vendingMachine) {
-        UserOutput.emptyLine();
-        System.out.println("Select your denomination to deposit -- $1, $5, $10, $20");
-        System.out.println("--------- Make sure to include the ($) sign -----------");
-        System.out.println("--------- For Example ----- $1 ------------------------");
-        UserOutput.emptyLine();
+    public static void getMoneyFedFromUser(VendingMachine vendingMachine) {
         String moneyFed = getUserSelection();
 
         switch (moneyFed) {

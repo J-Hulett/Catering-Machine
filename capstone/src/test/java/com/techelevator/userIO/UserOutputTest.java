@@ -22,6 +22,6 @@ public class UserOutputTest {
 
     @Test
     public void testChangeCounter(){
-        UserOutput.getChange(20.00);
+
     }
 }
