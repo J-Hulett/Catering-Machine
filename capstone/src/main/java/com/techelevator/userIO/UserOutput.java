@@ -96,8 +96,10 @@ public class UserOutput {
 
     public static void displayListOfInventoryOfItems(List<Item> items) {
         emptyLine();
+
         for (Item item : items) {
-            System.out.println(item.getSlot() + " || " + item.getName() + " || " + item.getPrice());
+            System.out.println(item.getSlot() + " || " + item.getName() + " || " + "$" + item.getPrice());
+
         }
         emptyLine();
     }
