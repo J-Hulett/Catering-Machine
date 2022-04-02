@@ -107,7 +107,7 @@ public class UserInput {
         }
         if (!isIn) {
             UserOutput.emptyLine();
-            System.out.println("Invalid Entry");
+            System.out.println("INVALID ENTRY!!!");
         }
     }
 
@@ -143,7 +143,7 @@ public class UserInput {
                 break;
             default:
                 UserOutput.emptyLine();
-                System.out.println("Invalid Entry - Please enter a valid amount.");
+                System.out.println("INVALID ENTRY - PLEASE ENTER A VALID AMOUNT!!!");
                 UserOutput.emptyLine();
         }
         UserOutput.displayCurrentMoneyProvided(vendingMachine);
