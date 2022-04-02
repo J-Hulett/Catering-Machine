@@ -40,7 +40,7 @@ public class UserOutput {
         System.out.println("(S) ------ Select Item -----------------");
         System.out.println("(F) ------ Finish Transaction ----------");
         emptyLine();
-        currentMoneyProvidedToString(vendingMachine);
+        System.out.println(currentMoneyProvidedToString(vendingMachine));
     }
 
     public static void printHomeScreenOptions(){
